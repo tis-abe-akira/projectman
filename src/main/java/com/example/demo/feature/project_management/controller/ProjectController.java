@@ -25,6 +25,24 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 
+/**
+ * プロジェクト管理のRESTful APIを提供するコントローラークラス。
+ * 
+ * <p>このコントローラーは以下の機能を提供します：</p>
+ * <ul>
+ *   <li>プロジェクトの作成</li>
+ *   <li>プロジェクトの取得</li>
+ *   <li>プロジェクトの検索（複数条件）</li>
+ *   <li>プロジェクトの更新</li>
+ *   <li>プロジェクトの削除</li>
+ * </ul>
+ * 
+ * <p>全てのエンドポイントは '/api/projects' をベースパスとして使用します。</p>
+ * 
+ * @author Your Name
+ * @version 1.0
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/api/projects")
 @RequiredArgsConstructor
@@ -33,6 +51,16 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    /**
+     * 新しいプロジェクトを作成します。
+     * 
+     * <p>クライアントから送信されたプロジェクト情報を基に、新しいプロジェクトを作成します。
+     * 作成されたプロジェクトのIDは、レスポンスのLocationヘッダーに含まれます。</p>
+     * 
+     * @param projectDTO 作成するプロジェクトの情報（必須）
+     * @return 作成されたプロジェクトの情報とHTTPステータス201（Created）
+     * @throws jakarta.validation.ConstraintViolationException 入力値が不正な場合
+     */
     @Operation(summary = "プロジェクトの新規作成", 
               description = "新しいプロジェクトを作成します。")
     @ApiResponses(value = {
@@ -53,6 +81,13 @@ public class ProjectController {
                 .body(created);
     }
 
+    /**
+     * 指定されたIDのプロジェクトを取得します。
+     * 
+     * @param id 取得するプロジェクトのID（必須）
+     * @return 指定されたIDのプロジェクト情報
+     * @throws ResourceNotFoundException 指定されたIDのプロジェクトが存在しない場合
+     */
     @Operation(summary = "プロジェクトの取得", 
               description = "指定されたIDのプロジェクトを取得します。")
     @ApiResponses(value = {
@@ -72,6 +107,28 @@ public class ProjectController {
                 .orElseThrow(() -> new ResourceNotFoundException("Project", id));
     }
 
+    /**
+     * プロジェクトを検索します。
+     * 
+     * <p>指定された検索条件に基づいてプロジェクトを検索します。
+     * 検索条件は「OR」条件で結合され、いずれかの条件に一致するプロジェクトが返されます。</p>
+     * 
+     * <p>検索可能な条件：</p>
+     * <ul>
+     *   <li>プロジェクト名</li>
+     *   <li>部門ID</li>
+     *   <li>プロジェクトランク</li>
+     *   <li>プロジェクトマネージャー名</li>
+     *   <li>プロジェクトリーダー名</li>
+     *   <li>開始日範囲</li>
+     *   <li>終了日範囲</li>
+     *   <li>収益範囲</li>
+     * </ul>
+     * 
+     * @param searchRequest 検索条件
+     * @param pageable ページング情報
+     * @return 検索条件に一致するプロジェクトのページング結果
+     */
     @Operation(summary = "プロジェクトの検索", 
               description = "条件に一致するプロジェクトを検索します。いずれかの条件に一致するプロジェクトが返されます。")
     @ApiResponses(value = {
@@ -148,6 +205,15 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
+    /**
+     * 指定されたIDのプロジェクトを更新します。
+     * 
+     * @param id 更新するプロジェクトのID（必須）
+     * @param projectDTO 更新するプロジェクトの情報（必須）
+     * @return 更新されたプロジェクトの情報
+     * @throws ResourceNotFoundException 指定されたIDのプロジェクトが存在しない場合
+     * @throws jakarta.validation.ConstraintViolationException 入力値が不正な場合
+     */
     @Operation(summary = "プロジェクトの更新", 
               description = "指定されたIDのプロジェクト情報を更新します。")
     @ApiResponses(value = {
@@ -171,6 +237,12 @@ public class ProjectController {
         return ResponseEntity.ok(updated);
     }
 
+    /**
+     * 指定されたIDのプロジェクトを削除します。
+     * 
+     * @param id 削除するプロジェクトのID（必須）
+     * @throws ResourceNotFoundException 指定されたIDのプロジェクトが存在しない場合
+     */
     @Operation(summary = "プロジェクトの削除", 
               description = "指定されたIDのプロジェクトを削除します。")
     @ApiResponses(value = {
