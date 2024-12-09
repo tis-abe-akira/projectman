@@ -19,6 +19,11 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    /**
+     * プロジェクトを作成します。
+     * @param projectDTO プロジェクトのデータ
+     * @return 作成されたプロジェクトのデータ
+     */
     @Transactional
     public ProjectDTO createProject(ProjectDTO projectDTO) {
         Project project = convertToEntity(projectDTO);
@@ -26,18 +31,35 @@ public class ProjectService {
         return convertToDTO(savedProject);
     }
 
+    /**
+     * 指定されたIDのプロジェクトを取得します。
+     * @param id プロジェクトのID
+     * @return プロジェクトのデータ
+     */
     @Transactional(readOnly = true)
     public Optional<ProjectDTO> getProject(Long id) {
         return projectRepository.findById(id)
                 .map(this::convertToDTO);
     }
 
+    /**
+     * プロジェクトを検索します。
+     * @param spec 検索条件
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     @Transactional(readOnly = true)
     public Page<ProjectDTO> searchProjects(Specification<Project> spec, Pageable pageable) {
         return projectRepository.findAll(spec, pageable)
                 .map(this::convertToDTO);
     }
 
+    /**
+     * プロジェクトを更新します。
+     * @param id 更新するプロジェクトのID
+     * @param projectDTO 更新するプロジェクトのデータ
+     * @return 更新されたプロジェクトのデータ
+     */
     @Transactional
     public ProjectDTO updateProject(Long id, ProjectDTO projectDTO) {
         return projectRepository.findById(id)
@@ -49,6 +71,10 @@ public class ProjectService {
                 .orElseThrow(() -> new ResourceNotFoundException("Project", id));
     }
 
+    /**
+     * プロジェクトを削除します。
+     * @param id 削除するプロジェクトのID
+     */
     @Transactional
     public void deleteProject(Long id) {
         Project project = projectRepository.findById(id)

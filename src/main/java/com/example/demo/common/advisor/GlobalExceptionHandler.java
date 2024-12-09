@@ -18,6 +18,12 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * ResourceNotFoundExceptionを処理します。
+     * @param ex 例外
+     * @param request リクエスト
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
             ResourceNotFoundException ex, WebRequest request) {
@@ -32,6 +38,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * MethodArgumentNotValidExceptionを処理します。
+     * @param ex 例外
+     * @param request リクエスト
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(
             MethodArgumentNotValidException ex, WebRequest request) {
@@ -52,6 +64,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * ConstraintViolationExceptionを処理します。
+     * @param ex 例外
+     * @param request リクエスト
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolation(
             ConstraintViolationException ex, WebRequest request) {
@@ -71,6 +89,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * その他の全ての例外を処理します。
+     * @param ex 例外
+     * @param request リクエスト
+     * @return エラーレスポンス
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllUncaughtException(
             Exception ex, WebRequest request) {

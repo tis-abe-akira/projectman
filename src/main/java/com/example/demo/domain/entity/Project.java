@@ -5,6 +5,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 
+/**
+ * プロジェクトエンティティ
+ */
 @Entity
 @Table(name = "projects")
 @Data
@@ -39,6 +42,9 @@ public class Project {
 
     private String notes;
 
+    /**
+     * プロジェクトランクの列挙型
+     */
     public enum ProjectRank {
         SS, A, B, C, D
     }

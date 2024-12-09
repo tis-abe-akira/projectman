@@ -14,21 +14,52 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
     
     // 基本的なCRUD操作はJpaRepositoryから継承
 
-    // プロジェクト名での検索（部分一致）
+    /**
+     * プロジェクト名でプロジェクトを検索します（部分一致）。
+     * @param projectName プロジェクト名
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByProjectNameContaining(String projectName, Pageable pageable);
 
-    // 部署IDでの検索
+    /**
+     * 部署IDでプロジェクトを検索します。
+     * @param departmentId 部署ID
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByDepartmentId(Long departmentId, Pageable pageable);
 
-    // プロジェクトランクでの検索
+    /**
+     * プロジェクトランクでプロジェクトを検索します。
+     * @param rank プロジェクトランク
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByProjectRank(ProjectRank rank, Pageable pageable);
 
-    // 期間での検索（開始日）
+    /**
+     * 開始日でプロジェクトを検索します。
+     * @param startDate 開始日
+     * @param endDate 終了日
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByStartDateBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
 
-    // PM名での検索（部分一致）
+    /**
+     * PM名でプロジェクトを検索します（部分一致）。
+     * @param projectManagerName PM名
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByProjectManagerNameContaining(String projectManagerName, Pageable pageable);
 
-    // PL名での検索（部分一致）
+    /**
+     * PL名でプロジェクトを検索します（部分一致）。
+     * @param projectLeaderName PL名
+     * @param pageable ページング情報
+     * @return 検索結果のプロジェクトのページ
+     */
     Page<Project> findByProjectLeaderNameContaining(String projectLeaderName, Pageable pageable);
 }
